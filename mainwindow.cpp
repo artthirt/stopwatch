@@ -25,6 +25,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pb_start_clicked()
 {
+    m_useStopwatch = true;
     m_start_time = QDateTime::currentMSecsSinceEpoch();
     m_timer.start(1);
 }
@@ -38,7 +39,8 @@ void MainWindow::onTimeout()
 {
     qint64 now = QDateTime::currentMSecsSinceEpoch();
 
-    QDateTime dt = QDateTime(QDate(1970, 1, 1), QTime(0, 0, 0)).addMSecs(now - m_start_time);
+    QDateTime dt = m_useStopwatch? QDateTime(QDate(1970, 1, 1), QTime(0, 0, 0)).addMSecs(now - m_start_time)
+                                 : QDateTime::currentDateTime();
 
     ui->lb_hms->setText(dt.time().toString("hh:mm:ss"));
     ui->lb_ms->setText(dt.time().toString("zzz"));
@@ -53,4 +55,10 @@ void MainWindow::on_pb_printscreen_clicked()
     QPixmap pix = s->grabWindow(0);
     m_widget->setImage(pix.toImage());
     m_widget->show();
+}
+
+void MainWindow::on_pb_time_clicked()
+{
+    m_useStopwatch = false;
+    m_timer.start(1);
 }

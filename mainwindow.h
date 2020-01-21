@@ -28,10 +28,13 @@ private slots:
 
     void on_pb_printscreen_clicked();
 
+    void on_pb_time_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTimer m_timer;
     qint64 m_start_time = 0;
+    bool m_useStopwatch = true;
 
     GLWidget *m_widget = nullptr;
 };
